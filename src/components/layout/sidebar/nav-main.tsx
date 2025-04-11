@@ -19,6 +19,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -57,7 +58,7 @@ export function NavMain({
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
                     tooltip={item.title}
-                    className={isParentActive ? "font-bold" : ""}
+                    className={isParentActive ? "bg-neutral-200 dark:bg-neutral-800" : ""}
                   >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
@@ -72,11 +73,11 @@ export function NavMain({
                         <SidebarMenuSubItem key={subItem.title}>
                           <SidebarMenuSubButton
                             asChild
-                            className={isSubItemActive ? "bg-slate-200" : ""}
+                            className={isSubItemActive ? "font-bold" : ""}
                           >
-                            <a href={subItem.url}>
+                            <Link href={subItem.url}>
                               <span>{subItem.title}</span>
-                            </a>
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       );
@@ -89,12 +90,12 @@ export function NavMain({
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 asChild
-                className={isSingleItemActive ? "bg-slate-200" : ""}
+                className={isSingleItemActive ? "bg-neutral-200 dark:bg-neutral-800" : ""}
               >
-                <a href={item.url}>
+                <Link href={item.url}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           );
