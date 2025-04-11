@@ -4,15 +4,14 @@ import * as React from "react";
 import {
   ArrowUpCircleIcon,
   BookOpen,
-  Bot, ClipboardListIcon,
-  DatabaseIcon, FileIcon, HelpCircleIcon,
+  Bot, HelpCircleIcon,
+  Home,
   SearchIcon,
   Settings2,
   SettingsIcon,
   SquareTerminal
 } from "lucide-react";
 
-import { NavDocuments } from "@/components/layout/sidebar/nav-documents";
 import { NavMain } from "@/components/layout/sidebar/nav-main";
 import { NavSecondary } from "@/components/layout/sidebar/nav-secondary";
 import { NavUser } from "@/components/layout/sidebar/nav-user";
@@ -33,6 +32,12 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: Home,
+      isActive: true,
+    },
     {
       title: "Playground",
       url: "#",
@@ -136,23 +141,6 @@ const data = {
       icon: SearchIcon,
     },
   ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: DatabaseIcon,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: ClipboardListIcon,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: FileIcon,
-    },
-  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -175,7 +163,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
