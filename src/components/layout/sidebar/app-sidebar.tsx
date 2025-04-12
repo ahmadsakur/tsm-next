@@ -137,7 +137,7 @@ const NavLinks = [
     items: [
       {
         title: "Data Karyawan",
-        url: "#",
+        url: "/employee",
       },
       {
         title: "Data Minus",
