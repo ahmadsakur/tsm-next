@@ -64,11 +64,11 @@ const NavLinks = [
     items: [
       {
         title: "Data Absensi",
-        url: "#",
+        url: "/absence",
       },
       {
         title: "Settings",
-        url: "#",
+        url: "/absence/settings",
       },
     ],
   },
