@@ -1,6 +1,6 @@
-'use client';
+"use client";
 import React, { useMemo, useState } from "react";
-import { dummyEmployee } from "../model/employee.type";
+import { dummyEmployee, IEmployee } from "../model/employee.type";
 import useDataTable from "@/app/hooks/useDataTable";
 import { ToolTipProvider } from "@/components/tooltip-provider";
 import { Button } from "@/components/ui/button";
@@ -19,9 +19,15 @@ import {
 import { FileSpreadsheet, Plus, Search } from "lucide-react";
 import { PaginationState } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
+import ConfirmationDialog from "@/components/confirmation-dialog";
+import EmployeeDialog from "./employee-dialog";
+import { toast } from "sonner";
 
 const EmployeeTable = () => {
   const data = dummyEmployee;
+  const [selectedItem, setSelectedItem] = useState<IEmployee>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { columnHelper, dataTable } = useDataTable({
     data: data || [],
   });
@@ -31,6 +37,16 @@ const EmployeeTable = () => {
   });
   const [keyword, setKeyword] = useState<string>("");
   // const debouncedKeyword = useDebounce(keyword, 500);
+
+  const onDialogClose = () => {
+    setIsDialogOpen(false);
+    setSelectedItem(undefined);
+  };
+  const handleDelete = (item: IEmployee) => {
+    // Handle delete logic here
+    toast.success(`Deleted ${item.name} successfully!`);
+    setIsDeleteModalOpen(false);
+  };
 
   const columns = useMemo(
     () => [
@@ -119,7 +135,7 @@ const EmployeeTable = () => {
         id: "id",
         size: 120,
         enableSorting: false,
-        cell: () => {
+        cell: (ctx) => {
           return (
             <div className="flex items-center justify-center w-full gap-4">
               <ToolTipProvider text="Edit">
@@ -127,6 +143,10 @@ const EmployeeTable = () => {
                   variant={"outline"}
                   size={"icon"}
                   className="rounded-lg"
+                  onClick={() => {
+                    setSelectedItem(ctx.row.original);
+                    setIsDialogOpen(true);
+                  }}
                 >
                   <Pencil />
                 </Button>
@@ -136,6 +156,10 @@ const EmployeeTable = () => {
                   variant={"destructive"}
                   size={"icon"}
                   className="rounded-lg"
+                  onClick={() => {
+                    setSelectedItem(ctx.row.original);
+                    setIsDeleteModalOpen(true);
+                  }}
                 >
                   <Trash />
                 </Button>
@@ -160,7 +184,7 @@ const EmployeeTable = () => {
       <div>
         <div className="flex justify-between gap-x-4 lg:gap-x-8">
           <div className="flex-1 flex gap-x-2 items-center">
-            <div className="relative w-full max-w-xs">
+            <div className="relative w-full max-w-[250px]">
               <Input
                 type="search"
                 placeholder="Type employee name"
@@ -172,7 +196,7 @@ const EmployeeTable = () => {
             </div>
             <div>
               <Select>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[140px]">
                   <SelectValue placeholder="Select work area" />
                 </SelectTrigger>
                 <SelectContent>
@@ -197,7 +221,7 @@ const EmployeeTable = () => {
             </div>
             <div>
               <Select>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[140px]">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -209,7 +233,7 @@ const EmployeeTable = () => {
             </div>
             <div>
               <Select>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[140px]">
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -222,7 +246,10 @@ const EmployeeTable = () => {
             </div>
           </div>
           <div className="flex items-center gap-x-2">
-            <Button className="flex items-center gap-x-1">
+            <Button
+              className="flex items-center gap-x-1"
+              onClick={() => setIsDialogOpen(true)}
+            >
               <Plus />
               Tambah Karyawan
             </Button>
@@ -239,6 +266,25 @@ const EmployeeTable = () => {
         pageCount={Math.ceil((data?.length || 0) / pageSize)}
         pagination={{ pageIndex, pageSize }}
         setPagination={setPagination}
+      />
+      <ConfirmationDialog
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
+        title="Delete Item"
+        description="Are you sure you want to delete this item?"
+      >
+        <Button
+          variant={"destructive"}
+          onClick={selectedItem ? () => handleDelete(selectedItem) : () => {}}
+          disabled={!selectedItem}
+        >
+          Delete
+        </Button>
+      </ConfirmationDialog>
+      <EmployeeDialog
+        open={isDialogOpen}
+        setOpen={onDialogClose}
+        data={selectedItem}
       />
     </div>
   );
