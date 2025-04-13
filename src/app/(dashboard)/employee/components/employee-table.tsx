@@ -65,7 +65,7 @@ const EmployeeTable = () => {
       }),
 
       columnHelper.accessor("name", {
-        header: "Title",
+        header: "Nama",
         id: "name",
         enableSorting: false,
         size: 150,
@@ -78,7 +78,7 @@ const EmployeeTable = () => {
         },
       }),
       columnHelper.accessor("working_area", {
-        header: "Title",
+        header: "Wilayah Kerja",
         id: "name",
         enableSorting: false,
         size: 150,
@@ -91,7 +91,7 @@ const EmployeeTable = () => {
         },
       }),
       columnHelper.accessor("tmt", {
-        header: "Title",
+        header: "TMT",
         id: "name",
         enableSorting: false,
         size: 150,
@@ -104,7 +104,7 @@ const EmployeeTable = () => {
         },
       }),
       columnHelper.accessor("status", {
-        header: "Title",
+        header: "Status",
         id: "name",
         enableSorting: false,
         size: 150,
@@ -117,7 +117,7 @@ const EmployeeTable = () => {
         },
       }),
       columnHelper.accessor("department", {
-        header: "Title",
+        header: "Jabatan",
         id: "name",
         enableSorting: false,
         size: 150,
@@ -196,7 +196,7 @@ const EmployeeTable = () => {
             </div>
             <div>
               <Select>
-                <SelectTrigger className="w-[140px]">
+                <SelectTrigger className="w-[160px]">
                   <SelectValue placeholder="Select work area" />
                 </SelectTrigger>
                 <SelectContent>
@@ -251,7 +251,7 @@ const EmployeeTable = () => {
               onClick={() => setIsDialogOpen(true)}
             >
               <Plus />
-              Tambah Karyawan
+              Tambah
             </Button>
             <Button variant={"outline"} className="flex items-start gap-x-1">
               <FileSpreadsheet />
