@@ -263,7 +263,7 @@ const EmployeeTable = () => {
       <DataTable
         columns={columns}
         data={filteredData}
-        pageCount={Math.ceil((data?.length || 0) / pageSize)}
+        pageCount={Math.ceil((filteredData?.length || 0) / pageSize)}
         pagination={{ pageIndex, pageSize }}
         setPagination={setPagination}
       />

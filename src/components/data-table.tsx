@@ -38,7 +38,6 @@ export function DataTable<TData, TValue>({
   pageCount,
   pagination,
   isLoading,
-  isPagination = true,
   setPagination,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
@@ -47,72 +46,76 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     pageCount,
+    state: {
+      pagination,
+    },
     manualPagination: true,
+    onPaginationChange: setPagination,
   });
 
   return (
-    <Card className="overflow-hidden">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className={"sticky top-0 z-10 bg-muted"}
-            >
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                Loading...
-              </TableCell>
-            </TableRow>
-          ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row, index) => (
+    <Card className="relative">
+      <div className="">
+        <Table className="w-full relative">
+          <TableHeader className="sticky top-0">
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                key={row.id + index}
-                data-state={row.getIsSelected() && "selected"}
+                key={headerGroup.id}
+                className="bg-muted z-10"
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id} className="bg-muted">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      {isPagination && (
-        <div className="py-4">
-          <DataTablePagination
-            table={table}
-            pagination={pagination}
-            pageCount={pageCount}
-            setPagination={setPagination}
-          />
-        </div>
-      )}
+            ))}
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row, index) => (
+                <TableRow
+                  key={row.id + index}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="py-4">
+        <DataTablePagination
+          table={table}
+          pagination={pagination}
+          pageCount={pageCount}
+          setPagination={setPagination}
+        />
+      </div>
     </Card>
   );
 }

@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   ALargeSmall,
-  ArrowUpCircleIcon,
   ChartColumnBig,
   Fingerprint,
   FlagTriangleRight,
@@ -12,6 +11,7 @@ import {
   ListChecks,
   Map,
   QrCode,
+  ShieldCheck,
   ShieldUser,
   Users,
 } from "lucide-react";
@@ -29,8 +29,8 @@ import {
 } from "@/components/ui/sidebar";
 
 const User = {
-  name: "shadcn",
-  email: "m@example.com",
+  name: "admin",
+  email: "admin@x.com",
   avatar: "/avatars/shadcn.jpg",
 };
 
@@ -79,7 +79,7 @@ const NavLinks = [
     items: [
       {
         title: "Laporan Patroli",
-        url: "#",
+        url: "/report/patrol",
       },
       {
         title: "Laporan Temuan",
@@ -179,12 +179,12 @@ const NavLinks = [
     icon: Landmark,
     items: [
       {
-        title: "Banners",
-        url: "#",
+        title: "Data Payroll",
+        url: "/payroll",
       },
       {
-        title: "Berita",
-        url: "#",
+        title: "Settings",
+        url: "/payroll/settings",
       },
     ],
   },
@@ -200,10 +200,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                <ArrowUpCircleIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <div className="flex items-center gap-2">
+                <ShieldCheck />
+                <span className="text-base font-semibold">TSM Dashboard</span>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
